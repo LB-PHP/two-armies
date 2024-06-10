@@ -6,8 +6,8 @@ var TIMER_RELOAD_PAGE = 3000;
 var TIMER_PARTY = 3000;
 
 function Army() {
-	this.img           = undefined;
-    this.flag 		   = "";
+    this.img           = undefined;
+    this.flag 	       = "";
     this.numSoldiers   = 0;
     this.soldierSizes  = [];
     this.soldiersUsed  = 0;
@@ -38,26 +38,26 @@ $(document).ready(function() {
     			}
     		}
     		prepareArmies();
-		}, 
-		error: function(e) { 
-			alert("Error loading armies! Please refresh the page. " + JSON.stringify(e));
+	}, 
+	error: function(e) { 
+		alert("Error loading armies! Please refresh the page. " + JSON.stringify(e));
         }
     });
 
-	function prepareArmies() {
+    function prepareArmies() {
 
-		safeConsole(armies.length + " armies created!");
-		if (armies.length != 2) {
-			alert("Error. There should be 2 armies;");
-			return;
-		}
+	safeConsole(armies.length + " armies created!");
+	if (armies.length != 2) {
+		alert("Error. There should be 2 armies;");
+		return;
+	}
 
-		try {
-    		army.flag 		  = armies[0][0];
+	try {
+    		army.flag 	  = armies[0][0];
     		army.numSoldiers  = armies[0][1].length; 
     		army.soldierSizes = armies[0][1];
 
-    		army2.flag 		   = armies[1][0];
+    		army2.flag         = armies[1][0];
     		army2.numSoldiers  = armies[1][1].length; 
     		army2.soldierSizes = armies[1][1];
 
@@ -70,31 +70,31 @@ $(document).ready(function() {
     	$("#favicon").attr("href", FLAG_DIR + army.flag + ".png");
 
     	battlePositions();
+    }
+
+    function battlePositions() { 
+	
+	var html = "";
+
+	for (var i = 0; i < army.numSoldiers; i++) { 
+		html = '<img src="' + FLAG_DIR + army.flag + '.png" width="' + army.soldierSizes[i] + '" id="' + army.flag + '_' + i + '">';
+		
+		// make soldiers start from the front of the line
+		$("#army").prepend(html);
 	}
 
-	function battlePositions() { 
+	html = "";
 
-		var html = "";
+	for (var i = 0; i < army2.numSoldiers; i++) { 
+		html += '<img src="' + FLAG_DIR + army2.flag + '.png" width="' + army2.soldierSizes[i] + '" id="' + army2.flag + '_' + i + '">';
+	}
 
-		for (var i = 0; i < army.numSoldiers; i++) { 
-			html = '<img src="' + FLAG_DIR + army.flag + '.png" width="' + army.soldierSizes[i] + '" id="' + army.flag + '_' + i + '">';
-			
-			// make soldiers start from the front of the line
-			$("#army").prepend(html);
-		}
+	$("#army2").html(html);
 
-		html = "";
+	doBattle();
+    } 
 
-		for (var i = 0; i < army2.numSoldiers; i++) { 
-			html += '<img src="' + FLAG_DIR + army2.flag + '.png" width="' + army2.soldierSizes[i] + '" id="' + army2.flag + '_' + i + '">';
-		}
-
-		$("#army2").html(html);
-
-		doBattle();
-	} 
-
-	function doBattle() {
+    function doBattle() {
 
 		clearTimeout(TIMEOUT_BATTLE);
 
@@ -123,26 +123,26 @@ $(document).ready(function() {
 
 		if (!army.stillStanding) {
 			var distance = parseInt($(".army").css("width")) - parseInt($(army.img).css("width")); 
-    		$(army.img).css("z-index", 2);
-    		$(army.img).css("position", "absolute");
-    		$(army.img).animate({"left": distance+"px"}, 1000);
-    		$(army.img).animate({"bottom": "0px" }, 500);
-    		$(army.img).css("opacity", 1);
-    	}
+	    		$(army.img).css("z-index", 2);
+	    		$(army.img).css("position", "absolute");
+	    		$(army.img).animate({"left": distance+"px"}, 1000);
+	    		$(army.img).animate({"bottom": "0px" }, 500);
+	    		$(army.img).css("opacity", 1);
+    		}
 
-    	if (!army2.stillStanding) {
-    		var distance2 = parseInt($(".army").css("width")) - parseInt($(army2.img).css("width")); 
-    		$(army2.img).css("z-index", 2);
-    		$(army2.img).css("position", "absolute");
-    		$(army2.img).animate({"right": distance2+"px"}, 1000);
-    		$(army2.img).animate({"bottom": "0px" }, 500);
-    		$(army2.img).css("opacity", 1);
-    	}
+	    	if (!army2.stillStanding) {
+	    		var distance2 = parseInt($(".army").css("width")) - parseInt($(army2.img).css("width")); 
+	    		$(army2.img).css("z-index", 2);
+	    		$(army2.img).css("position", "absolute");
+	    		$(army2.img).animate({"right": distance2+"px"}, 1000);
+	    		$(army2.img).animate({"bottom": "0px" }, 500);
+	    		$(army2.img).css("opacity", 1);
+	    	}
 
 		TIMEOUT_CALC = setTimeout(function() {
 			$(army.img).effect("bounce", getRand(500, 1000));
-	    	$(army2.img).effect("bounce", getRand(500, 1000));
-	    	calculateOdds();
+		    	$(army2.img).effect("bounce", getRand(500, 1000));
+		    	calculateOdds();
 		}, 1000);
 	}
 
@@ -203,7 +203,7 @@ $(document).ready(function() {
 		$(".army img").css("position", "relative");
 		$(".army img").css("opacity", 1);
 
-        // soldiers throw a party?
+        	// soldiers throw a party?
 		$(".army img").each(function() {
 			$(this).animate({"width": getRand(10, 100)+"%", "left": getRand(100, 500)+"px"}, TIMER_PARTY);
 		});
@@ -219,10 +219,10 @@ $(document).ready(function() {
 		$("#message").show();
 		$("#message").html(txt);
 		if (time) {
-    		TIMEOUT_MSG = setTimeout(function(){
-    			$("#message").hide("fade", 2000);
-    		}, time);
-    	}
+    			TIMEOUT_MSG = setTimeout(function(){
+    				$("#message").hide("fade", 2000);
+    			}, time);
+    		}
 	}
 
 	function safeConsole(msg) {
