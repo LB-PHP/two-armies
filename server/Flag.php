@@ -23,6 +23,6 @@ class Flag {
 		} else 
 		        die("Error opening directory.");
 
-	    return $flags;
+	    	return $flags;
 	} 
 } 
